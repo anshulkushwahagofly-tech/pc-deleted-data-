@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram 3D Profile Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="instagram-container">
+        <!-- Profile Header -->
+        <header class="profile-header">
+            <div class="profile-pic-container">
+                <img src="https://i.pravatar.cc/300?img=68" alt="Profile Picture" class="profile-pic">
+            </div>
+            <div class="profile-info">
+                <div class="profile-title">
+                    <h2 class="username">threejs_developer</h2>
+                    <button class="edit-profile">Edit Profile</button>
+                    <button class="edit-profile">View Archive</button>
+                    <button class="settings"><i class="fas fa-cog"></i></button>
+                </div>
+                <div class="profile-stats">
+                    <span><strong>9</strong> posts</span>
+                    <span><strong>10.5K</strong> followers</span>
+                    <span><strong>450</strong> following</span>
+                </div>
+                <div class="profile-bio">
+                    <span class="bio-name">Creative Coder</span>
+                    <br>
+                    <span>Turning code into realistic 3D experiences 🚀✨</span>
+                    <br>
+                    <span>Check out my WebGL experiments 👇</span>
+                    <br>
+                    <a href="#" class="bio-link"><i class="fas fa-link"></i> github.com/threejs</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Highlights -->
+        <div class="highlights">
+            <div class="highlight"><img src="https://picsum.photos/100?random=1" alt="H1"><span>3D Art</span></div>
+            <div class="highlight"><img src="https://picsum.photos/100?random=2" alt="H2"><span>Shaders</span></div>
+            <div class="highlight"><img src="https://picsum.photos/100?random=3" alt="H3"><span>Setup</span></div>
+            <div class="highlight"><img src="https://picsum.photos/100?random=4" alt="H4"><span>Travel</span></div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="profile-tabs">
+            <div class="tab active"><i class="fas fa-th"></i> POSTS</div>
+            <div class="tab"><i class="fas fa-play"></i> REELS</div>
+            <div class="tab"><i class="far fa-bookmark"></i> SAVED</div>
+            <div class="tab"><i class="fas fa-user-tag"></i> TAGGED</div>
+        </div>
+
+        <!-- 3D Hint -->
+        <div class="hint-text">Move your mouse to experience the 3D realistic grid</div>
+
+        <!-- Three.js Canvas Container for Posts -->
+        <div id="canvas-container"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

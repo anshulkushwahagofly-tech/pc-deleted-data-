@@ -1,0 +1,197 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #fafafa;
+    color: #262626;
+    overflow-x: hidden;
+}
+
+.instagram-container {
+    max-width: 935px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.profile-header {
+    display: flex;
+    margin-bottom: 44px;
+}
+
+.profile-pic-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    margin-right: 30px;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    padding: 3px;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.profile-info {
+    flex: 2;
+}
+
+.profile-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.username {
+    font-size: 28px;
+    font-weight: 300;
+    margin-right: 20px;
+}
+
+.edit-profile {
+    padding: 5px 9px;
+    font-weight: 600;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+    transition: background-color 0.2s;
+}
+
+.edit-profile:hover {
+    background-color: #efefef;
+}
+
+.settings {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.profile-stats {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.profile-bio {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.bio-name {
+    font-weight: 600;
+}
+
+.bio-link {
+    color: #00376b;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.highlights {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 40px;
+    padding-left: 20px;
+}
+
+.highlight {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.highlight img {
+    width: 77px;
+    height: 77px;
+    border-radius: 50%;
+    border: 1px solid #dbdbdb;
+    padding: 2px;
+}
+
+.highlight span {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.profile-tabs {
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #dbdbdb;
+    gap: 60px;
+    margin-bottom: 10px;
+}
+
+.tab {
+    padding: 15px 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8e8e8e;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    letter-spacing: 1px;
+}
+
+.tab.active {
+    color: #262626;
+    border-top: 1px solid #262626;
+    margin-top: -1px;
+}
+
+.hint-text {
+    text-align: center;
+    font-size: 12px;
+    color: #8e8e8e;
+    margin-bottom: 15px;
+}
+
+/* Three.js Container */
+#canvas-container {
+    width: 100%;
+    height: 600px; /* Adjust height based on grid */
+    position: relative;
+    background: transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: crosshair;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+    }
+    .profile-pic {
+        width: 100px;
+        height: 100px;
+    }
+    .profile-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .profile-stats {
+        gap: 20px;
+    }
+    #canvas-container {
+        height: 400px;
+    }
+}

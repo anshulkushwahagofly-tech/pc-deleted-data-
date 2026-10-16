@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shopping Site for Fashion, Electronics, Home & More | Meesho</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Mier+B:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f43397',
+                        primaryHover: '#d52c83',
+                        textDark: '#333333',
+                        textLight: '#666666',
+                        bgLight: '#f8f8ff',
+                        bgGray: '#f9f9f9',
+                        borderGray: '#dfdfdf'
+                    },
+                    fontFamily: {
+                        sans: ['"Mier B"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Mier B', sans-serif; background-color: #f8f8ff; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-textDark">
+
+    <!-- Top Navigation -->
+    <header class="bg-white border-b border-borderGray sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8 h-20 flex items-center justify-between gap-8">
+            <!-- Logo -->
+            <a href="#" class="flex-shrink-0">
+                <h1 class="text-primary text-4xl font-bold tracking-tight">meesho</h1>
+            </a>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-2xl relative hidden md:block">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input type="text" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md outline-none focus:border-primary text-sm" placeholder="Try Saree, Kurti or Search by Product Code">
+            </div>
+
+            <!-- Right Nav Items -->
+            <div class="flex items-center gap-6 hidden lg:flex">
+                <a href="#" class="flex items-center gap-2 text-textDark hover:text-primary transition font-medium border-r border-gray-300 pr-6">
+                    <i class="fas fa-mobile-alt text-xl"></i>
+                    <span>Download App</span>
+                </a>
+                <a href="#" class="text-textDark hover:text-primary transition font-medium border-r border-gray-300 pr-6">
+                    Become a Supplier
+                </a>
+                <a href="#" class="text-textDark hover:text-primary transition font-medium border-r border-gray-300 pr-6">
+                    Newsroom
+                </a>
+            </div>
+
+            <!-- Profile & Cart -->
+            <div class="flex items-center gap-6">
+                <div class="flex flex-col items-center cursor-pointer hover:text-primary text-textDark group relative">
+                    <i class="far fa-user text-xl mb-1"></i>
+                    <span class="text-xs font-semibold group-hover:text-primary">Profile</span>
+                </div>
+                <div class="flex flex-col items-center cursor-pointer hover:text-primary text-textDark">
+                    <div class="relative">
+                        <i class="fas fa-shopping-cart text-xl mb-1"></i>
+                        <span class="absolute -top-1 -right-2 bg-primary text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">0</span>
+                    </div>
+                    <span class="text-xs font-semibold">Cart</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Categories Nav -->
+    <nav class="bg-white border-b border-borderGray shadow-sm hidden md:block relative z-40">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
+            <ul class="flex justify-between text-[15px] font-medium text-textDark">
+                <li class="py-4 border-b-4 border-transparent hover:border-primary hover:text-primary cursor-pointer transition">Women Ethnic</li>
+                <li class="py-4 border-b-4 border-transparent hover:border-primary hover:text-primary cursor-pointer transition">Women Western</li>
+                <li class="py-4 border-b-4 border-transparent hover:border-primary hover:text-primary cursor-pointer transition">Men</li>
+                <li class="py-4 border-b-4 border-transparent hover:border-primary hover:text-primary cursor-pointer transition">Kids</li>
+                <li class="py-4 border-b-4 border-transparent hover:border-primary hover:text-primary cursor-pointer transition">Home & Kitchen</li>
+                <li class="py-4 border-b-4 border-transparent hover:border-primary hover:text-primary cursor-pointer transition">Beauty & Health</li>
+                <li class="py-4 border-b-4 border-transparent hover:border-primary hover:text-primary cursor-pointer transition">Jewellery & Accessories</li>
+                <li class="py-4 border-b-4 border-transparent hover:border-primary hover:text-primary cursor-pointer transition">Bags & Footwear</li>
+                <li class="py-4 border-b-4 border-transparent hover:border-primary hover:text-primary cursor-pointer transition">Electronics</li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 lg:px-8 py-8">
+        
+        <!-- Hero Section -->
+        <section class="bg-[#f9f9f9] rounded flex flex-col md:flex-row items-center justify-between mb-12 shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-10 md:p-16 flex-1">
+                <h1 class="text-4xl md:text-5xl font-bold text-textDark leading-tight mb-6">Lowest Prices<br>Best Quality Shopping</h1>
+                <div class="flex items-center gap-4 bg-white p-3 rounded-md w-fit mb-8 shadow-sm">
+                    <div class="flex items-center gap-2 font-semibold text-sm border-r pr-4 border-gray-300">
+                        <span class="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs"><i class="fas fa-truck"></i></span> Free Delivery
+                    </div>
+                    <div class="flex items-center gap-2 font-semibold text-sm border-r pr-4 border-gray-300">
+                        <span class="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs"><i class="fas fa-money-bill-wave"></i></span> Cash on Delivery
+                    </div>
+                    <div class="flex items-center gap-2 font-semibold text-sm">
+                        <span class="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs"><i class="fas fa-undo"></i></span> Easy Returns
+                    </div>
+                </div>
+                <button class="bg-primary hover:bg-primaryHover text-white px-6 py-4 rounded font-semibold text-lg flex items-center gap-3 transition">
+                    <i class="fab fa-google-play text-2xl"></i> Download the Meesho App
+                </button>
+            </div>
+            <div class="w-full md:w-1/2 flex justify-end">
+                <img src="https://images.meesho.com/images/marketing/1686234459500_512.webp" alt="Shopping" class="h-[400px] object-cover object-left rounded-r">
+            </div>
+        </section>
+
+        <!-- Top Categories to choose from -->
+        <section class="mb-12">
+            <div class="flex items-center gap-4 mb-8">
+                <h2 class="text-3xl font-bold text-textDark">Top Categories to choose from</h2>
+                <div class="h-[2px] bg-primary flex-1"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Category 1 -->
+                <div class="bg-white rounded-lg cursor-pointer transform hover:scale-105 transition duration-300">
+                    <img src="https://images.meesho.com/images/marketing/1678691686252_400.webp" alt="Women Store" class="w-full rounded-lg">
+                </div>
+                <!-- Category 2 -->
+                <div class="bg-white rounded-lg cursor-pointer transform hover:scale-105 transition duration-300">
+                    <img src="https://images.meesho.com/images/marketing/1678691699680_300.webp" alt="Men Store" class="w-full rounded-lg">
+                </div>
+                <!-- Category 3 -->
+                <div class="bg-white rounded-lg cursor-pointer transform hover:scale-105 transition duration-300">
+                    <img src="https://images.meesho.com/images/marketing/1678691712594_300.webp" alt="Kids Store" class="w-full rounded-lg">
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Feed -->
+        <section>
+            <h2 class="text-3xl font-bold text-textDark mb-8">Products For You</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" id="productGrid">
+                <!-- Products will be injected via JS -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const products = [
+            {
+                image: "https://images.meesho.com/images/products/324683526/f8dfp_400.webp",
+                title: "Aakarsha Attractive Sarees",
+                price: "₹384",
+                originalPrice: "₹451",
+                discount: "15% off",
+                rating: "4.1",
+                reviews: "7880 Reviews",
+                delivery: "Free Delivery"
+            },
+            {
+                image: "https://images.meesho.com/images/products/301297127/n9y1k_400.webp",
+                title: "Classic Men T-Shirts",
+                price: "₹187",
+                originalPrice: "₹219",
+                discount: "15% off",
+                rating: "3.9",
+                reviews: "3490 Reviews",
+                delivery: "Free Delivery"
+            },
+            {
+                image: "https://images.meesho.com/images/products/335805501/y3jov_400.webp",
+                title: "Trendy Women Kurta Sets",
+                price: "₹459",
+                originalPrice: "₹539",
+                discount: "15% off",
+                rating: "4.0",
+                reviews: "10560 Reviews",
+                delivery: "Free Delivery"
+            },
+            {
+                image: "https://images.meesho.com/images/products/316654224/t6pnb_400.webp",
+                title: "Modern Smart Watches",
+                price: "₹499",
+                originalPrice: "₹599",
+                discount: "17% off",
+                rating: "3.7",
+                reviews: "450 Reviews",
+                delivery: "₹50 Delivery"
+            },
+            {
+                image: "https://images.meesho.com/images/products/123456789/dummy1_400.webp", // Fallback image handling needed or use working ones
+                fallbackImg: "https://images.meesho.com/images/products/298471131/a3pif_400.webp",
+                title: "Elegant Women Handbags",
+                price: "₹299",
+                originalPrice: "₹350",
+                discount: "15% off",
+                rating: "4.2",
+                reviews: "2100 Reviews",
+                delivery: "Free Delivery"
+            },
+             {
+                image: "https://images.meesho.com/images/products/263541785/w3h10_400.webp",
+                title: "Stylish Women Watches",
+                price: "₹199",
+                originalPrice: "₹299",
+                discount: "33% off",
+                rating: "4.3",
+                reviews: "820 Reviews",
+                delivery: "Free Delivery"
+            },
+            {
+                image: "https://images.meesho.com/images/products/284795321/kjsdf_400.webp",
+                fallbackImg: "https://images.meesho.com/images/products/284351654/b7j49_400.webp",
+                title: "Men's Track Pants",
+                price: "₹250",
+                originalPrice: "₹300",
+                discount: "16% off",
+                rating: "3.8",
+                reviews: "1150 Reviews",
+                delivery: "Free Delivery"
+            },
+             {
+                image: "https://images.meesho.com/images/products/329584712/9sd8f_400.webp",
+                fallbackImg: "https://images.meesho.com/images/products/319623838/pwhf2_400.webp",
+                title: "Home Decor Lights",
+                price: "₹149",
+                originalPrice: "₹200",
+                discount: "25% off",
+                rating: "4.4",
+                reviews: "5600 Reviews",
+                delivery: "Free Delivery"
+            },
+             {
+                image: "https://images.meesho.com/images/products/247185963/f8sd9_400.webp",
+                fallbackImg: "https://images.meesho.com/images/products/182654378/k8jh3_400.webp",
+                title: "Beauty Care Kit",
+                price: "₹599",
+                originalPrice: "₹799",
+                discount: "25% off",
+                rating: "4.1",
+                reviews: "340 Reviews",
+                delivery: "Free Delivery"
+            },
+             {
+                image: "https://images.meesho.com/images/products/182746359/j7sd6_400.webp",
+                fallbackImg: "https://images.meesho.com/images/products/130283084/z4c5q_400.webp",
+                title: "Kids Party Wear",
+                price: "₹350",
+                originalPrice: "₹450",
+                discount: "22% off",
+                rating: "4.0",
+                reviews: "920 Reviews",
+                delivery: "Free Delivery"
+            }
+        ];
+
+        const productGrid = document.getElementById('productGrid');
+
+        products.forEach(product => {
+            const imgSrc = product.fallbackImg ? product.fallbackImg : product.image;
+            const productHtml = `
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition flex flex-col">
+                    <div class="h-56 overflow-hidden">
+                        <img src="${imgSrc}" alt="${product.title}" class="w-full h-full object-cover" onerror="this.src='https://images.meesho.com/images/products/324683526/f8dfp_400.webp'">
+                    </div>
+                    <div class="p-3 flex flex-col flex-1">
+                        <p class="text-textLight text-[15px] font-medium truncate mb-1">${product.title}</p>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-xl font-bold text-textDark">${product.price}</span>
+                        </div>
+                        <div class="flex items-center gap-2 mb-2">
+                             <div class="bg-bgLight text-textLight text-xs font-semibold px-2 py-1 rounded-full w-fit">
+                                ${product.delivery}
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-2 mt-auto pt-2">
+                            <div class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                                ${product.rating} <i class="fas fa-star text-[10px]"></i>
+                            </div>
+                            <span class="text-xs text-textLight">${product.reviews}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            productGrid.innerHTML += productHtml;
+        });
+    </script>
+</body>
+</html>

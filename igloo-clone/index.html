@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Igloo Inc.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    /* ═══════════════════════════════════════
+       EXACT IGLOO.INC COLOR PALETTE
+       #000000  — background
+       #ffffff  — primary text
+       #B6BAC5  — secondary text (cool blue-grey)
+       #383E4E  — slate / borders
+       #1C1F26  — card surfaces
+       Aurora: blurred iridescent blobs
+    ═══════════════════════════════════════ */
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+
+    body {
+      background: #000;
+      color: #B6BAC5;
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.5;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Custom Cursor ── */
+    .cur  { position:fixed; width:8px; height:8px; background:#fff; border-radius:50%; pointer-events:none; z-index:99999; transform:translate(-50%,-50%); transition:opacity .3s; }
+    .cur-ring { position:fixed; width:32px; height:32px; border:1px solid rgba(255,255,255,.3); border-radius:50%; pointer-events:none; z-index:99998; transform:translate(-50%,-50%); transition:width .3s,height .3s,border-color .3s; }
+    a:hover ~ .cur-ring, button:hover ~ .cur-ring { width:56px; height:56px; }
+
+    /* ── Aurora Background ── */
+    .aurora-layer {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; overflow: hidden;
+    }
+    .aurora-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.12;
+      animation: blobMove 12s ease-in-out infinite;
+    }
+    .blob1 { width:700px; height:700px; background:#5B8DEF; top:-200px; left:-150px; animation-delay:0s; }
+    .blob2 { width:600px; height:600px; background:#9B5CFF; top:20%; right:-200px; animation-delay:-4s; }
+    .blob3 { width:500px; height:500px; background:#C084FC; bottom:10%; left:30%; animation-delay:-8s; }
+    .blob4 { width:400px; height:400px; background:#38BDF8; bottom:-100px; right:10%; animation-delay:-2s; }
+
+    @keyframes blobMove {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33%      { transform: translate(30px,-40px) scale(1.05); }
+      66%      { transform: translate(-20px,30px) scale(0.97); }
+    }
+
+    /* ── Noise grain overlay ── */
+    .grain {
+      position: fixed; inset:0; z-index:1; pointer-events:none;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed; top:0; left:0; right:0; z-index:1000;
+      display: flex; justify-content:space-between; align-items:center;
+      padding: 24px 56px;
+      border-bottom: 1px solid rgba(56,62,78,0.4);
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .nav-logo {
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 0.15em; color: #fff;
+      text-decoration: none; text-transform: uppercase;
+    }
+    .nav-center { display:flex; gap:40px; list-style:none; }
+    .nav-center a {
+      font-size: 11px; font-weight: 400; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #383E4E;
+      text-decoration: none; transition: color .3s;
+    }
+    .nav-center a:hover { color: #B6BAC5; }
+    .nav-cta {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #fff;
+      border: 1px solid #383E4E; padding: 10px 24px;
+      border-radius: 100px; text-decoration: none;
+      transition: all .4s; display:inline-block;
+    }
+    .nav-cta:hover { border-color:#B6BAC5; background:rgba(182,186,197,0.06); }
+
+    /* ── Main Wrapper ── */
+    main { position:relative; z-index:2; }
+
+    /* ══════════════════════
+       HERO SECTION
+    ══════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction:column;
+      justify-content:center; align-items:center;
+      text-align:center;
+      padding: 140px 56px 100px;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items:center; gap:8px;
+      font-size: 10px; font-weight:500; letter-spacing:0.25em;
+      text-transform:uppercase; color: #383E4E;
+      border: 1px solid #383E4E; padding:7px 18px;
+      border-radius:100px; margin-bottom:48px;
+      animation: fadeUp .8s ease .2s both;
+    }
+    .hero-badge-dot {
+      width:5px; height:5px; border-radius:50%;
+      background: linear-gradient(135deg,#5B8DEF,#C084FC);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .hero-title {
+      font-size: clamp(48px, 7.5vw, 112px);
+      font-weight: 200; line-height: 1.02;
+      letter-spacing: -0.04em; color: #fff;
+      margin-bottom: 32px; max-width: 1100px;
+      animation: fadeUp 1s ease .4s both;
+    }
+    .hero-title em {
+      font-style: normal;
+      background: linear-gradient(135deg, #B6BAC5 0%, #fff 30%, #9BAFD1 60%, #C4B5FD 85%, #B6BAC5 100%);
+      background-size: 300% 300%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 6s ease infinite;
+    }
+    @keyframes shimmer {
+      0%   { background-position:0% 50%; }
+      50%  { background-position:100% 50%; }
+      100% { background-position:0% 50%; }
+    }
+
+    .hero-sub {
+      font-size: clamp(14px, 1.4vw, 17px);
+      font-weight: 300; color: #383E4E;
+      max-width: 480px; line-height: 1.75;
+      margin-bottom: 52px;
+      animation: fadeUp 1s ease .6s both;
+    }
+
+    .hero-actions {
+      display: flex; gap:14px; align-items:center;
+      animation: fadeUp 1s ease .8s both;
+    }
+    .btn-ghost {
+      font-size: 11px; font-weight:500; letter-spacing:.12em;
+      text-transform:uppercase; color:#B6BAC5;
+      border:1px solid #383E4E; padding:13px 30px;
+      border-radius:100px; text-decoration:none;
+      transition:all .4s; position:relative; overflow:hidden;
+    }
+    .btn-ghost::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(circle at 50% 50%, rgba(91,141,239,.1), transparent);
+      opacity:0; transition:opacity .4s;
+    }
+    .btn-ghost:hover { border-color:#B6BAC5; color:#fff; }
+    .btn-ghost:hover::before { opacity:1; }
+    .btn-fill {
+      font-size: 11px; font-weight:500; letter-spacing:.12em;
+      text-transform:uppercase; color:#000; background:#fff;
+      padding:13px 30px; border-radius:100px;
+      text-decoration:none; transition:all .4s;
+      border:1px solid #fff;
+    }
+    .btn-fill:hover { background:#B6BAC5; border-color:#B6BAC5; }
+
+    .scroll-hint {
+      position:absolute; bottom:40px; left:50%;
+      transform:translateX(-50%);
+      display:flex; flex-direction:column; align-items:center; gap:8px;
+      animation: fadeIn 1s ease 1.4s both;
+    }
+    .scroll-hint span { font-size:8px; letter-spacing:.3em; text-transform:uppercase; color:#383E4E; }
+    .scroll-bar { width:1px; height:48px; background:linear-gradient(to bottom,#383E4E,transparent); animation:scrollPulse 2s ease infinite; }
+    @keyframes scrollPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    /* ══════════════════════
+       TICKER
+    ══════════════════════ */
+    .ticker {
+      border-top:1px solid #383E4E28;
+      border-bottom:1px solid #383E4E28;
+      overflow:hidden; white-space:nowrap;
+      padding: 16px 0;
+    }
+    .ticker-track {
+      display:inline-flex;
+      animation: ticker 22s linear infinite;
+    }
+    .ticker-item {
+      font-size: 9px; letter-spacing:.3em; text-transform:uppercase;
+      color: #383E4E; padding:0 44px;
+      display:flex; align-items:center; gap:16px;
+    }
+    .ticker-star { color:#5B8DEF; font-size:7px; }
+    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ══════════════════════
+       MISSION
+    ══════════════════════ */
+    .section { padding:120px 56px; max-width:1200px; margin:0 auto; }
+
+    .overline {
+      font-size: 9px; font-weight:500; letter-spacing:.3em;
+      text-transform:uppercase; color:#5B8DEF;
+      display:flex; align-items:center; gap:12px;
+      margin-bottom:52px;
+    }
+    .overline::after { content:''; flex:1; max-width:48px; height:1px; background:#5B8DEF; opacity:.4; }
+
+    .mission-text {
+      font-size: clamp(26px, 3.5vw, 50px);
+      font-weight: 200; line-height:1.3;
+      letter-spacing:-.025em; color:#fff;
+    }
+    .mission-text .dim { color:#383E4E; }
+
+    /* ══════════════════════
+       STATS
+    ══════════════════════ */
+    .stats-strip {
+      border-top:1px solid #383E4E28;
+      border-bottom:1px solid #383E4E28;
+    }
+    .stats-inner {
+      max-width:1200px; margin:0 auto;
+      display:grid; grid-template-columns:repeat(4,1fr);
+    }
+    .stat-box {
+      padding:52px 56px;
+      border-right:1px solid #383E4E28;
+    }
+    .stat-box:last-child { border-right:none; }
+    .stat-n {
+      font-size: clamp(40px,5vw,72px);
+      font-weight:200; letter-spacing:-.04em; color:#fff;
+      display:block; margin-bottom:8px;
+    }
+    .stat-l { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#383E4E; }
+
+    /* ══════════════════════
+       VENTURES
+    ══════════════════════ */
+    .ventures-wrap { padding:80px 56px 120px; max-width:1200px; margin:0 auto; }
+    .vent-hd {
+      display:flex; justify-content:space-between; align-items:flex-end;
+      margin-bottom:48px;
+    }
+    .vent-title { font-size:clamp(32px,4vw,56px); font-weight:200; letter-spacing:-.03em; color:#fff; }
+    .vent-ct { font-size:10px; color:#383E4E; letter-spacing:.15em; text-transform:uppercase; }
+
+    .vent-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:#383E4E28; }
+
+    .vent-card {
+      background:#000; padding:52px 48px 52px;
+      position:relative; overflow:hidden;
+      transition:background .4s; cursor:pointer;
+      text-decoration:none; color:inherit; display:block;
+    }
+    .vent-card::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(circle at var(--cx,50%) var(--cy,50%), rgba(91,141,239,.06) 0%, transparent 65%);
+      opacity:0; transition:opacity .5s;
+    }
+    .vent-card:hover { background:#0A0B0E; }
+    .vent-card:hover::before { opacity:1; }
+
+    .vc-num { font-size:9px; letter-spacing:.2em; color:#383E4E; margin-bottom:36px; display:block; }
+    .vc-icon { font-size:32px; margin-bottom:20px; display:block; }
+    .vc-name { font-size:20px; font-weight:400; letter-spacing:-.01em; color:#fff; margin-bottom:12px; }
+    .vc-desc { font-size:13px; color:#383E4E; line-height:1.65; font-weight:300; max-width:320px; }
+
+    .vc-badge {
+      position:absolute; top:52px; right:48px;
+      font-size:8px; letter-spacing:.18em; text-transform:uppercase;
+      color:#383E4E; border:1px solid #383E4E28; padding:5px 12px; border-radius:100px;
+    }
+    .vc-arrow {
+      position:absolute; bottom:52px; right:48px;
+      width:34px; height:34px; border:1px solid #383E4E;
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      font-size:13px; color:#383E4E; transition:all .35s;
+    }
+    .vent-card:hover .vc-arrow { border-color:#B6BAC5; color:#B6BAC5; transform:rotate(45deg); }
+
+    /* ══════════════════════
+       TEAM
+    ══════════════════════ */
+    .team-wrap { padding:80px 56px 120px; max-width:1200px; margin:0 auto; }
+    .team-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#383E4E28; margin-top:52px; }
+    .team-card {
+      background:#000; aspect-ratio:3/4;
+      display:flex; align-items:flex-end;
+      position:relative; overflow:hidden;
+      transition:background .4s; cursor:pointer;
+    }
+    .team-card:hover { background:#080A0D; }
+    .tc-bg {
+      position:absolute; inset:0; display:flex;
+      align-items:center; justify-content:center; font-size:72px;
+      opacity:.15; filter:grayscale(1);
+    }
+    .tc-glow {
+      position:absolute; inset:0;
+      background:linear-gradient(to top, rgba(91,141,239,.08) 0%, transparent 60%);
+    }
+    .tc-info { position:relative; z-index:2; padding:28px; width:100%; }
+    .tc-name { font-size:15px; font-weight:400; color:#B6BAC5; margin-bottom:4px; letter-spacing:-.01em; }
+    .tc-role { font-size:10px; color:#383E4E; letter-spacing:.12em; text-transform:uppercase; }
+
+    /* ══════════════════════
+       CTA
+    ══════════════════════ */
+    .cta-section {
+      padding:160px 56px; text-align:center;
+      position:relative; overflow:hidden;
+    }
+    .cta-glow {
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      width:800px; height:800px; pointer-events:none;
+      background:radial-gradient(circle, rgba(91,141,239,.07) 0%, transparent 70%);
+    }
+    .cta-title {
+      font-size:clamp(40px,7vw,96px);
+      font-weight:200; letter-spacing:-.04em; line-height:1.02;
+      color:#fff; max-width:780px; margin:0 auto 52px;
+      position:relative;
+    }
+    .cta-title em {
+      font-style:normal;
+      background: linear-gradient(135deg, #B6BAC5 0%, #fff 30%, #9BAFD1 60%, #C4B5FD 85%, #B6BAC5 100%);
+      background-size:300%;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      animation:shimmer 6s ease infinite;
+    }
+
+    /* ══════════════════════
+       FOOTER
+    ══════════════════════ */
+    footer {
+      border-top:1px solid #383E4E28;
+      padding:40px 56px;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .f-logo { font-size:12px; font-weight:500; letter-spacing:.15em; color:#383E4E; text-transform:uppercase; }
+    .f-links { display:flex; gap:28px; list-style:none; }
+    .f-links a { font-size:10px; color:#383E4E; text-decoration:none; letter-spacing:.1em; transition:color .3s; }
+    .f-links a:hover { color:#B6BAC5; }
+    .f-copy { font-size:10px; color:#383E4E28; letter-spacing:.06em; }
+
+    /* ══════════════════════
+       ANIMATIONS
+    ══════════════════════ */
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(28px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity:0; } to { opacity:1; }
+    }
+
+    .reveal { opacity:0; transform:translateY(36px); transition:opacity .9s ease, transform .9s ease; }
+    .reveal.in { opacity:1; transform:translateY(0); }
+    .reveal-delay-1 { transition-delay:.1s; }
+    .reveal-delay-2 { transition-delay:.2s; }
+    .reveal-delay-3 { transition-delay:.3s; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width:3px; }
+    ::-webkit-scrollbar-track { background:#000; }
+    ::-webkit-scrollbar-thumb { background:#383E4E; }
+    ::selection { background:rgba(91,141,239,.2); color:#fff; }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cur" id="cur"></div>
+  <div class="cur-ring" id="curRing"></div>
+
+  <!-- Aurora BG -->
+  <div class="aurora-layer">
+    <div class="aurora-blob blob1"></div>
+    <div class="aurora-blob blob2"></div>
+    <div class="aurora-blob blob3"></div>
+    <div class="aurora-blob blob4"></div>
+  </div>
+
+  <!-- Grain -->
+  <div class="grain"></div>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <a class="nav-logo" href="#">Igloo Inc.</a>
+    <ul class="nav-center">
+      <li><a href="#ventures">Ventures</a></li>
+      <li><a href="#mission">Mission</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Connect →</a>
+  </nav>
+
+  <main>
+
+    <!-- ── HERO ── -->
+    <section class="hero">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Onchain Community
+      </div>
+      <h1 class="hero-title">
+        Building the largest<br/><em>onchain community</em>
+      </h1>
+      <p class="hero-sub">
+        Our mission is to create the largest onchain community, driving the consumer crypto revolution through culture, creativity, and connection.
+      </p>
+      <div class="hero-actions">
+        <a href="#ventures" class="btn-ghost">Explore Ventures</a>
+        <a href="#contact" class="btn-fill">Join the Movement</a>
+      </div>
+      <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-bar"></div>
+      </div>
+    </section>
+
+    <!-- ── TICKER ── -->
+    <div class="ticker">
+      <div class="ticker-track">
+        <span class="ticker-item">Onchain Community <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Consumer Crypto <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Digital Culture <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Web3 Innovation <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Decentralized Future <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Pudgy Penguins <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Abstract Chain <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Onchain Community <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Consumer Crypto <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Digital Culture <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Web3 Innovation <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Decentralized Future <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Pudgy Penguins <span class="ticker-star">✦</span></span>
+        <span class="ticker-item">Abstract Chain <span class="ticker-star">✦</span></span>
+      </div>
+    </div>
+
+    <!-- ── MISSION ── -->
+    <div class="section" id="mission">
+      <div class="overline reveal">Our Mission</div>
+      <p class="mission-text reveal reveal-delay-1">
+        We believe the next billion users will come onchain <span class="dim">through compelling experiences,</span>
+        cultural moments, and communities that feel <span class="dim">native to the internet.</span>
+        We're building those experiences — <em style="font-style:normal;color:#fff;">one product at a time.</em>
+      </p>
+    </div>
+
+    <!-- ── STATS ── -->
+    <div class="stats-strip">
+      <div class="stats-inner">
+        <div class="stat-box reveal">
+          <span class="stat-n" data-count="10">0</span>
+          <span class="stat-l">Ventures Built</span>
+        </div>
+        <div class="stat-box reveal reveal-delay-1">
+          <span class="stat-n" data-count="2">0</span>
+          <span class="stat-l">Million Community</span>
+        </div>
+        <div class="stat-box reveal reveal-delay-2">
+          <span class="stat-n" data-count="50">0</span>
+          <span class="stat-l">Team Members</span>
+        </div>
+        <div class="stat-box reveal reveal-delay-3">
+          <span class="stat-n" data-count="2021">0</span>
+          <span class="stat-l">Year Founded</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── VENTURES ── -->
+    <div class="ventures-wrap" id="ventures">
+      <div class="vent-hd reveal">
+        <h2 class="vent-title">Our Ventures</h2>
+        <span class="vent-ct">04 Projects</span>
+      </div>
+      <div class="vent-grid">
+        <a class="vent-card reveal" href="#">
+          <span class="vc-num">01</span>
+          <span class="vc-icon">🐧</span>
+          <h3 class="vc-name">Pudgy Penguins</h3>
+          <p class="vc-desc">The iconic NFT collection that started it all. Building a global brand through digital and physical experiences.</p>
+          <span class="vc-badge">NFT Collection</span>
+          <div class="vc-arrow">↗</div>
+        </a>
+        <a class="vent-card reveal reveal-delay-1" href="#">
+          <span class="vc-num">02</span>
+          <span class="vc-icon">🔷</span>
+          <h3 class="vc-name">Abstract</h3>
+          <p class="vc-desc">A Layer 2 blockchain built for consumer applications, bringing mainstream users onchain with ease and speed.</p>
+          <span class="vc-badge">Layer 2</span>
+          <div class="vc-arrow">↗</div>
+        </a>
+        <a class="vent-card reveal reveal-delay-2" href="#">
+          <span class="vc-num">03</span>
+          <span class="vc-icon">🧊</span>
+          <h3 class="vc-name">Lil Pudgys</h3>
+          <p class="vc-desc">The next generation of Pudgy Penguins, expanding the community through accessible and playful design.</p>
+          <span class="vc-badge">NFT Collection</span>
+          <div class="vc-arrow">↗</div>
+        </a>
+        <a class="vent-card reveal reveal-delay-3" href="#">
+          <span class="vc-num">04</span>
+          <span class="vc-icon">🌐</span>
+          <h3 class="vc-name">Pudgy World</h3>
+          <p class="vc-desc">A fully onchain gaming universe. Play, earn, and build your digital world with your penguin companions.</p>
+          <span class="vc-badge">Gaming</span>
+          <div class="vc-arrow">↗</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ── TEAM ── -->
+    <div class="team-wrap" id="team">
+      <div class="overline reveal">The People</div>
+      <p class="mission-text reveal reveal-delay-1">
+        The team behind<br/><span class="dim">the revolution</span>
+      </p>
+      <div class="team-grid">
+        <div class="team-card reveal">
+          <div class="tc-bg">🐧</div>
+          <div class="tc-glow"></div>
+          <div class="tc-info">
+            <p class="tc-name">Luca Netz</p>
+            <p class="tc-role">CEO & Co-Founder</p>
+          </div>
+        </div>
+        <div class="team-card reveal reveal-delay-1">
+          <div class="tc-bg">🔷</div>
+          <div class="tc-glow"></div>
+          <div class="tc-info">
+            <p class="tc-name">Cole Villemain</p>
+            <p class="tc-role">Chief Operating Officer</p>
+          </div>
+        </div>
+        <div class="team-card reveal reveal-delay-2">
+          <div class="tc-bg">🧊</div>
+          <div class="tc-glow"></div>
+          <div class="tc-info">
+            <p class="tc-name">Ben Yu</p>
+            <p class="tc-role">Chief Strategy Officer</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CTA ── -->
+    <section class="cta-section" id="contact">
+      <div class="cta-glow"></div>
+      <h2 class="cta-title reveal">
+        Ready to go<br/><em>onchain?</em>
+      </h2>
+      <div class="hero-actions reveal reveal-delay-1" style="justify-content:center;">
+        <a href="#" class="btn-ghost">Learn More</a>
+        <a href="#" class="btn-fill">Get Started</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <span class="f-logo">Igloo Inc.</span>
+    <ul class="f-links">
+      <li><a href="#">Twitter / X</a></li>
+      <li><a href="#">Discord</a></li>
+      <li><a href="#">LinkedIn</a></li>
+    </ul>
+    <span class="f-copy">© 2025 Igloo Inc. All rights reserved.</span>
+  </footer>
+
+  <script>
+    /* ── Custom Cursor ── */
+    const cur = document.getElementById('cur');
+    const ring = document.getElementById('curRing');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove', e=>{mx=e.clientX;my=e.clientY;});
+    (function tick(){
+      rx+=(mx-rx)*0.1; ry+=(my-ry)*0.1;
+      cur.style.left=mx+'px'; cur.style.top=my+'px';
+      ring.style.left=rx+'px'; ring.style.top=ry+'px';
+      requestAnimationFrame(tick);
+    })();
+    document.querySelectorAll('a,button').forEach(el=>{
+      el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';ring.style.borderColor='rgba(91,141,239,.5)';});
+      el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(255,255,255,.3)';});
+    });
+
+    /* ── Venture card spotlight ── */
+    document.querySelectorAll('.vent-card').forEach(c=>{
+      c.addEventListener('mousemove',e=>{
+        const r=c.getBoundingClientRect();
+        c.style.setProperty('--cx',((e.clientX-r.left)/r.width*100)+'%');
+        c.style.setProperty('--cy',((e.clientY-r.top)/r.height*100)+'%');
+      });
+    });
+
+    /* ── Scroll Reveal ── */
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    /* ── Counter ── */
+    const co = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(!e.isIntersecting) return;
+        const el=e.target, target=+el.dataset.count;
+        let v=0; const step=target/60;
+        const t=setInterval(()=>{
+          v=Math.min(v+step,target);
+          el.textContent = target>=1000 ? Math.floor(v) : (v<10?v.toFixed(1):Math.floor(v));
+          if(v>=target){el.textContent=target>=1000?target:target;clearInterval(t);}
+        },18);
+        co.unobserve(el);
+      });
+    },{threshold:.5});
+    document.querySelectorAll('.stat-n[data-count]').forEach(el=>co.observe(el));
+
+    /* ── Parallax on scroll ── */
+    let ticking=false;
+    window.addEventListener('scroll',()=>{
+      if(!ticking){
+        requestAnimationFrame(()=>{
+          const sy=window.scrollY;
+          const ht=document.querySelector('.hero-title');
+          if(ht) ht.style.transform=`translateY(${sy*0.12}px)`;
+          ticking=false;
+        });
+        ticking=true;
+      }
+    });
+  </script>
+</body>
+</html>

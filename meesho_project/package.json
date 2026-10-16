@@ -1,0 +1,26 @@
+{
+  "name": "meesho_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "fix_paths.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anshulkushwahagofly-tech/meesho.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/anshulkushwahagofly-tech/meesho/issues"
+  },
+  "homepage": "https://github.com/anshulkushwahagofly-tech/meesho#readme",
+  "dependencies": {
+    "puppeteer": "^25.12.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvis AI</title>
+    <!-- Sci-Fi Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0d0d12;
+            color: #00ffcc;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+
+        .chat-container {
+            flex: 1;
+            width: 90%;
+            max-width: 400px;
+            margin: 20px;
+            padding: 15px;
+            background: rgba(0, 255, 204, 0.05);
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            border-radius: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-msg {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+
+        .bot-msg {
+            background: rgba(0, 255, 204, 0.2);
+            color: #00ffcc;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+            box-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+        }
+
+        .mic-container {
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #mic-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #00ffcc;
+            border: none;
+            color: #0d0d12;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 0 20px #00ffcc;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #mic-btn.listening {
+            background: #ff0055;
+            box-shadow: 0 0 30px #ff0055, 0 0 60px #ff0055;
+            animation: pulse 1.5s infinite;
+            color: white;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        #status-text {
+            margin-top: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>J.A.R.V.I.S</h1>
+    
+    <div class="chat-container" id="chat-box">
+        <div class="message bot-msg">Hello Boss. I am online. Tap the mic to speak.</div>
+    </div>
+
+    <div class="mic-container">
+        <button id="mic-btn"><i class="fas fa-microphone"></i></button>
+        <div id="status-text">SYSTEM STANDBY</div>
+    </div>
+
+    <script>
+        const micBtn = document.getElementById('mic-btn');
+        const statusText = document.getElementById('status-text');
+        const chatBox = document.getElementById('chat-box');
+
+        // Initialize Speech Recognition (Works best in Chrome/Android)
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition;
+        
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.lang = 'en-IN'; // You can change to 'hi-IN' for pure Hindi
+            recognition.interimResults = false;
+            recognition.continuous = false;
+
+            recognition.onstart = function() {
+                micBtn.classList.add('listening');
+                statusText.innerText = "LISTENING...";
+            };
+
+            recognition.onspeechend = function() {
+                micBtn.classList.remove('listening');
+                statusText.innerText = "PROCESSING...";
+                recognition.stop();
+            };
+
+            recognition.onresult = async function(event) {
+                const transcript = event.results[0][0].transcript;
+                addMessage(transcript, 'user');
+                
+                // Send to Flask Backend
+                try {
+                    const response = await fetch('/ask', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: transcript })
+                    });
+                    
+                    const data = await response.json();
+                    const reply = data.reply;
+                    
+                    addMessage(reply, 'bot');
+                    speakText(reply);
+                    statusText.innerText = "SYSTEM STANDBY";
+                } catch (error) {
+                    addMessage("Error connecting to brain.", 'bot');
+                    statusText.innerText = "ERROR";
+                }
+            };
+
+            recognition.onerror = function(event) {
+                micBtn.classList.remove('listening');
+                statusText.innerText = "ERROR: " + event.error.toUpperCase();
+            };
+        } else {
+            statusText.innerText = "Mic not supported in this browser.";
+        }
+
+        // Initialize Text-to-Speech
+        function speakText(text) {
+            const synth = window.speechSynthesis;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'hi-IN'; // Speaks with Indian accent
+            utterance.rate = 1.0;
+            
+            // Try to find a good voice
+            const voices = synth.getVoices();
+            const hindiVoice = voices.find(v => v.lang.includes('hi'));
+            if(hindiVoice) utterance.voice = hindiVoice;
+
+            synth.speak(utterance);
+        }
+
+        // Handle Mic click
+        micBtn.addEventListener('click', () => {
+            if (recognition) {
+                recognition.start();
+            }
+        });
+
+        function addMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message');
+            if (sender === 'user') {
+                msgDiv.classList.add('user-msg');
+            } else {
+                msgDiv.classList.add('bot-msg');
+            }
+            msgDiv.innerText = text;
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
